@@ -39,7 +39,7 @@ int main()
         }
     }
 
-    for(int i=0;i<width * height;i+=4) {
+    for(int i=0;i<width * height;i+=8) {
         __m256 rvec = _mm256_load_ps(r);
         __m256 gvec = _mm256_load_ps(g);
         __m256 bvec = _mm256_load_ps(b);
@@ -63,5 +63,5 @@ int main()
     double sec = (lsec + lusec / 1000000.0);
     printf("%8.6f seconds\n", sec);
 
-    stbi_write_jpg("grayscale.jpg", width, height, 1, gray, 95);
+    stbi_write_jpg("grayscale_simd_256.jpg", width, height, 1, gray, 95);
 }

@@ -63,5 +63,5 @@ int main()
     double sec = (lsec + lusec / 1000000.0);
     printf("%8.6f seconds\n", sec);
 
-    stbi_write_jpg("grayscale.jpg", width, height, 1, gray, 95);
+    stbi_write_jpg("grayscale_simd_128.jpg", width, height, 1, gray, 95);
 }
