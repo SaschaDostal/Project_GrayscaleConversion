@@ -8,3 +8,6 @@ simd:
 
 simd256:
 	$(CC) -o simd_256.exe simd_256.c -march=native
+
+openmp:
+	$(CC) -fopenmp -o openmp.exe openmp.c
