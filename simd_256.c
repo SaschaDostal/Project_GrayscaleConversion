@@ -23,26 +23,24 @@ int main()
     
     unsigned char *gray = malloc(width * height);
 
-    struct timeval start;
-    gettimeofday(&start, 0);
-
     //[ r, g, b, r, g, b, ...]
     float* r = malloc(sizeof(float) * width * height);
     float* g = malloc(sizeof(float) * width * height);
     float* b = malloc(sizeof(float) * width * height);
 
-    for(int x=0;x<width;x++) {
-        for(int y=0;y<height;y++) {
-            r[y * width + x] = 0.2126f * img[(y * width + x) * 3];
-            g[y * width + x] = 0.7152f * img[(y * width + x) * 3 + 1];
-            b[y * width + x] = 0.0722f * img[(y * width + x) * 3 + 2];
-        }
+    struct timeval start;
+    gettimeofday(&start, 0);
+
+    for(int x=0;x<width*height;x++) {
+        r[x] = img[x * 3] >> 2;
+        g[x] = img[x * 3 + 1] >> 1;
+        b[x] = img[x * 3 + 2] >> 2;
     }
 
     for(int i=0;i<width * height;i+=8) {
-        __m256 rvec = _mm256_load_ps(r);
-        __m256 gvec = _mm256_load_ps(g);
-        __m256 bvec = _mm256_load_ps(b);
+        __m256 rvec = _mm256_loadu_ps(r);
+        __m256 gvec = _mm256_loadu_ps(g);
+        __m256 bvec = _mm256_loadu_ps(b);
         __m256 sum = _mm256_add_ps (rvec, gvec);
         sum = _mm256_add_ps (bvec, sum);
         
