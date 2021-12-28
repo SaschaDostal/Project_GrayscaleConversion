@@ -27,6 +27,6 @@ V0 256   | 0.477895   | 0.541910   | AVX Version with approximation shifts and o
 OPENMP | A  | B | Comment
 -------- | -------- | -------- | --------
 V0   | 0.035776   | 0.038935   | simple omp parallel for
-V0   |    | 0.033429   | simple omp parallel for simd
+V0   | 0.035529   | 0.033429   | simple omp parallel for simd
 
 (all values in seconds)
