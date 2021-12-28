@@ -8,11 +8,12 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+// V0
 int main()
 {
 
     int width, height, channels;
-    unsigned char *img = stbi_load("BenchmarkPicture.jpg", &width, &height, &channels, 0);
+    unsigned char *img = stbi_load("BenchmarkPictureL.jpg", &width, &height, &channels, 0);
     if (img == NULL)
     {
         printf("Err: loading image\n");
