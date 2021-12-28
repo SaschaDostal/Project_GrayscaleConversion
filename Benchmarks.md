@@ -17,15 +17,15 @@ Picture Size: w: 15360, h: 8640, 19,6 MB
 
 UNOPTIMIZED | A  | B | Comment
 -------- | -------- | -------- | --------
-V0   | 0.653950   | Inhalt   | initial unoptimized version
+V0   | 0.653950   | 1.6574604   | initial unoptimized version
 
 SIMD | A  | B | Comment
 -------- | -------- | -------- | --------
-V0 128   | 0.478735   | Inhalt   | SSE Version with approximation shifts and optimized for loop
-V0 256   | 0.477895   | Inhalt   | AVX Version with approximation shifts and optimized for loop. Bug: picture fragments
+V0 128   | 0.478735   | 0.539196   | SSE Version with approximation shifts and optimized for loop
+V0 256   | 0.477895   | 0.541910   | AVX Version with approximation shifts and optimized for loop. Bug: picture fragments
 
 OPENMP | A  | B | Comment
 -------- | -------- | -------- | --------
-V0   | 0.035776   | Inhalt   | simple omp parallel for
+V0   | 0.035776   | 0.038935   | simple omp parallel for
 
 (all values in seconds)
