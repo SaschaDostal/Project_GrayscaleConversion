@@ -7,11 +7,11 @@
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
+#define THREADS 24
 
-// V0
+// V1
 int main()
 {
-
     int width, height, channels;
     unsigned char *img = stbi_load("BenchmarkPictureL.jpg", &width, &height, &channels, 0);
     if (img == NULL)
@@ -27,11 +27,14 @@ int main()
     struct timeval start;
     gettimeofday(&start, 0);
 
-    #pragma omp parallel for // simd
-    for(int x=0;x<width*height;x++) {
-        gray[x] =  0.2126 * img[x * 3]
-                + 0.7152 * img[x * 3 + 1] 
-                + 0.0722 * img[x * 3 + 2];
+    int pixel_per_thread = (width*height)/THREADS;
+    #pragma omp parallel for //simd
+    for(int thread = 0; thread < THREADS; thread++){
+        for(int x=pixel_per_thread*thread;x<pixel_per_thread*thread+pixel_per_thread;x++) {
+            gray[x] =  0.2126 * img[x * 3]
+                    + 0.7152 * img[x * 3 + 1] 
+                    + 0.0722 * img[x * 3 + 2];
+        }
     }
 
     struct timeval end;
