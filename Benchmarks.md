@@ -23,17 +23,17 @@ SIMD | A  | B | Comment
 -------- | -------- | -------- | --------
 V0 128   | 0.478735   | 0.539196   | SSE Version with approximation shifts and optimized for loop
 V0 256   | 0.477895   | 0.541910   | AVX Version with approximation shifts and optimized for loop. Bug: picture fragments
-V1 128   | 0.053968   |    | SSE Version without conversion to float and more intrinsics
+V1 128   | 0.053968   | 0.068251  | SSE Version without conversion to float and more intrinsics
 
 OPENMP | A  | B | Comment
 -------- | -------- | -------- | --------
 V0   | 0.035776   | 0.038935   | simple omp parallel for
 V0   | 0.035529   | 0.033429   | simple omp parallel for simd
-V1 fixed threads  | 0.058296   |    | omp parallel for with 6 threads
-V1 fixed threads  | 0.047874   |    | omp parallel for with 8 threads
-V1 fixed threads  | 0.040682   |    | omp parallel for with 10 threads
-V1 fixed threads  | 0.035673   |    | omp parallel for with 12 threads
-V1 fixed threads  | 0.035734   |    | omp parallel for with 24 threads
+V1 fixed threads  | 0.058296   | 0.048471   | omp parallel for with 6 threads
+V1 fixed threads  | 0.047874   | 0.040652  | omp parallel for with 8 threads
+V1 fixed threads  | 0.040682   | 0.037117  | omp parallel for with 10 threads
+V1 fixed threads  | 0.035673   | 0.039915  | omp parallel for with 12 threads
+V1 fixed threads  | 0.035734   | 0.043467   | omp parallel for with 24 threads
 
 
 (all values in seconds)
