@@ -8,7 +8,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-// V0
+// V1
 int main()
 {
 
@@ -25,34 +25,45 @@ int main()
     unsigned char *gray = malloc(width * height);
 
     //[ r, g, b, r, g, b, ...]
-    float* r = malloc(sizeof(float) * width * height);
-    float* g = malloc(sizeof(float) * width * height);
-    float* b = malloc(sizeof(float) * width * height);
 
     struct timeval start;
     gettimeofday(&start, 0);
 
-    for(int x=0;x<width*height;x++) {
-        r[x] = img[x * 3] >> 2;
-        g[x] = img[x * 3 + 1] >> 1;
-        b[x] = img[x * 3 + 2] >> 2;
-    }
+    for(int i=0;i<width * height * 3; i+=24) {
 
-    for(int i=0;i<width * height;i+=4) {
-        __m128 rvec = _mm_load_ps(r);
-        __m128 gvec = _mm_load_ps(g);
-        __m128 bvec = _mm_load_ps(b);
-        __m128 sum = _mm_add_ps (rvec, gvec);
-        sum = _mm_add_ps (bvec, sum);
+        // Load and shuffle data
+
+        __m128i first16byte = _mm_loadu_si128((__m128i*)(img + i));
+        __m128i second16byte = _mm_loadu_si128((__m128i*)(img + i + 16));
+        __m128i second16byte_aligned = _mm_alignr_epi8(second16byte, first16byte, 12);
+
+        const __m128i shuffle = _mm_set_epi8( 9, 6, 3, 0, 11, 8, 5, 2, 10, 7, 4, 1, 9, 6, 3, 0);
+        __m128i rgb_pixel_0123 = _mm_shuffle_epi8(first16byte, shuffle);
+        __m128i rgb_pixel_4567 = _mm_shuffle_epi8(second16byte_aligned, shuffle);
+
+        // Sort data by color and shift
+
+        __m128i r_pixel = _mm_alignr_epi8(rgb_pixel_4567, rgb_pixel_0123, 12);
+        r_pixel = _mm_srli_epi64(r_pixel, 2);
+        r_pixel = _mm_and_si128(r_pixel , _mm_set1_epi8(0b00111111));
+
+        __m128i g_pixel_0123 = _mm_slli_si128(rgb_pixel_0123, 8);
+        __m128i g_pixel_4567 = _mm_srli_si128(rgb_pixel_4567, 4);
+        __m128i g_pixel = _mm_alignr_epi8(g_pixel_4567, g_pixel_0123, 12);
+        g_pixel = _mm_srli_epi64(g_pixel, 1);
+        g_pixel = _mm_and_si128(g_pixel , _mm_set1_epi8(0b01111111));
+
+        __m128i b_pixel_0123 = _mm_slli_si128(rgb_pixel_0123, 4);
+        __m128i b_pixel_4567 = _mm_srli_si128(rgb_pixel_4567, 8);
+        __m128i b_pixel = _mm_alignr_epi8(b_pixel_4567, b_pixel_0123, 12);
+        b_pixel = _mm_srli_epi64(b_pixel, 2);
+        b_pixel = _mm_and_si128(b_pixel , _mm_set1_epi8(0b00111111));
+
+        // Calculation
+        g_pixel = _mm_add_epi64(r_pixel, g_pixel);
+        g_pixel = _mm_add_epi64(b_pixel, g_pixel);
         
-        __m128i int_sum = _mm_cvtps_epi32(sum);
-        int_sum = _mm_packus_epi32(int_sum, int_sum);
-        int_sum = _mm_packus_epi16(int_sum, int_sum);
-        _mm_storeu_si128((__m128i *)&gray[i], int_sum);
-
-        r += 4;
-        g += 4;
-        b += 4;
+        _mm_storeu_si128((__m128i *)&gray[i/3], g_pixel);
     }
 
     struct timeval end;
