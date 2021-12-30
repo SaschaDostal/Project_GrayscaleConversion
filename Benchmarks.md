@@ -15,6 +15,8 @@ Picture Size: w: 15360, h: 8640, 19,6 MB
 
 ## Tables
 
+The values ​​shown are average values ​​over 10 runs.  
+
 UNOPTIMIZED | A  | B | Comment
 -------- | -------- | -------- | --------
 V0   | 0.653950   | 1.6574604   | initial unoptimized version
@@ -22,7 +24,7 @@ V0   | 0.653950   | 1.6574604   | initial unoptimized version
 SIMD | A  | B | Comment
 -------- | -------- | -------- | --------
 V0 128   | 0.478735   | 0.539196   | SSE Version with approximation shifts and optimized for loop
-V0 256   | 0.477895   | 0.541910   | AVX Version with approximation shifts and optimized for loop. Bug: picture fragments
+V0 256   | 0.477895   | 0.541910   | AVX Version with approximation shifts and optimized for loop. <br />Bug: picture fragments
 V1 128   | 0.053968   | 0.068251  | SSE Version without conversion to float and more intrinsics
 
 OPENMP | A  | B | Comment
@@ -45,6 +47,6 @@ V0 | 0.022019   | 0.026110  | with 24 threads
 
 OPENCV (C++) | A  | B | Comment
 -------- | -------- | -------- | --------
-V0 |    |    |
+V0 | 0.024625   | 0.029302   |
 
 (all values in seconds)
