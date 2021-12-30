@@ -35,5 +35,16 @@ V1 fixed threads  | 0.040682   | 0.037117  | omp parallel for with 10 threads
 V1 fixed threads  | 0.035673   | 0.039915  | omp parallel for with 12 threads
 V1 fixed threads  | 0.035734   | 0.043467   | omp parallel for with 24 threads
 
+OPENMP + SIMD | A  | B | Comment
+-------- | -------- | -------- | --------
+V0 | 0.024145   |    | with 6 threads
+V0 | 0.022888   |    | with 8 threads
+V0 | 0.022757   |    | with 10 threads
+V0 | 0.021817   |    | with 12 threads
+V0 | 0.022019   |    | with 24 threads
+
+OPENCV (C++) | A  | B | Comment
+-------- | -------- | -------- | --------
+V0 |    |    |
 
 (all values in seconds)

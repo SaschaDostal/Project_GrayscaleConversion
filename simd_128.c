@@ -24,8 +24,6 @@ int main()
     
     unsigned char *gray = malloc(width * height);
 
-    //[ r, g, b, r, g, b, ...]
-
     struct timeval start;
     gettimeofday(&start, 0);
 

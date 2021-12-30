@@ -11,3 +11,6 @@ simd256:
 
 openmp:
 	$(CC) -O3 -fopenmp -o openmp.exe openmp.c
+
+openmpsimd:
+	$(CC) -O3 -fopenmp -o openmp_simd.exe openmp_simd.c -march=native
